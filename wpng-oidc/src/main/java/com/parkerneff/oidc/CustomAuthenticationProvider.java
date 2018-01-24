@@ -5,6 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,22 +24,13 @@ public class CustomAuthenticationProvider
         String password = authentication.getCredentials().toString();
 
         if ("myadmin".equals(name) && "password".equals("password")) {
-            grantedAuthorities.add(new GrantedAuthority() {
-                @Override
-                public String getAuthority() {
-                    return "ROLE_ADMIN";
-                }
-            });
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
             return new UsernamePasswordAuthenticationToken(
                     name, password, grantedAuthorities);
 
         } else  if ("myuser".equals(name) && "password".equals("password")) {
-            grantedAuthorities.add(new GrantedAuthority() {
-                @Override
-                public String getAuthority() {
-                    return "ROLE_USER";
-                }
-            });
+            grantedAuthorities.add( new SimpleGrantedAuthority("ROLE_USER"));
             return new UsernamePasswordAuthenticationToken(
                     name, password, grantedAuthorities);
 

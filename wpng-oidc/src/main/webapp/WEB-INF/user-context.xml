@@ -30,9 +30,8 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<security:authentication-manager id="authenticationManager">
-		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource"/>
-		</security:authentication-provider>
+		<security:authentication-provider
+				ref="customAuthProvider" />
 	</security:authentication-manager>
 		
 	<mvc:view-controller path="/login" view-name="login" />
@@ -40,7 +39,7 @@
 	<security:http authentication-manager-ref="authenticationManager"> 
 	
 		<security:intercept-url pattern="/authorize" access="hasRole('ROLE_USER')" />
-		<security:intercept-url pattern="/**" access="permitAll" />
+		<security:intercept-url pattern="/WEB-INF" access="permitAll" />
 		
 		<security:form-login login-page="/login" authentication-failure-url="/login?error=failure" authentication-success-handler-ref="authenticationTimeStamper" />
 		<security:custom-filter ref="authRequestFilter" after="SECURITY_CONTEXT_FILTER" />
@@ -51,6 +50,9 @@
 			<security:frame-options policy="DENY" />
 		</security:headers>
 		<security:csrf />
-	</security:http>	
+	</security:http>
+    <bean id="customAuthProvider" class="com.parkerneff.oidc.CustomAuthenticationProvider">
+
+    </bean>
 
 </beans>
