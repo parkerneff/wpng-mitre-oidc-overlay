@@ -33,6 +33,11 @@
 		<security:authentication-provider
 				ref="customAuthProvider" />
 	</security:authentication-manager>
+
+    <!-- By setting primary to true, this gets setup as the User Info Repository used by Mitre -->
+	<bean id="customUserInfoRepository" primary="true" class="com.parkerneff.oidc.CustomUserInfoRepository">
+
+	</bean>
 		
 	<mvc:view-controller path="/login" view-name="login" />
 
