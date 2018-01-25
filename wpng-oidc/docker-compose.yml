@@ -1,0 +1,29 @@
+version: "3"
+services:
+
+  oidc:
+    image: wpng-oidc:1.0
+    ports:
+      - 8080:8080
+    networks:
+      - frontend
+      - backend
+
+
+
+  canvas:
+    image: lbjay/canvas-docker
+    ports:
+      - 3000:3000
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - oidc
+
+
+
+networks:
+  frontend:
+  backend:
+
